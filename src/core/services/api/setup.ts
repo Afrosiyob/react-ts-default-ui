@@ -1,6 +1,6 @@
 import axios from "axios";
-import { configs } from "core/configs/configs";
-import { StatusCode } from "core/enums/enums";
+import { configs } from "core/configs";
+import { StatusCode } from "core/enums";
 
 // const baseUrl = process.env.REACT_APP_API_LOCALE_AUTH_URL;
 
@@ -46,6 +46,14 @@ http.interceptors.request.use(
 
 http.interceptors.response.use(
   function fn(response) {
+    if (configs.app.appIsDev) {
+      console.log(response.data);
+      console.log(response.status);
+      console.log(response.statusText);
+      console.log(response.headers);
+      console.log(response.config);
+    }
+
     if (response) {
       return response.data;
     }
@@ -64,8 +72,8 @@ http.interceptors.response.use(
 
           // 1. Redirect to login page or
           // 2. Request refresh token
-          // localStorage.clear();
-          // window.location.reload();
+          localStorage.clear();
+          window.location.reload();
           break;
         case StatusCode.Forbidden:
           // Handle Forbidden
@@ -86,9 +94,12 @@ http.interceptors.response.use(
       // The request was made but no response was received
       // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
       // http.ClientRequest in node.js
+      if (configs.app.appIsDev) console.log(error.request);
     } else {
       // Something happened in setting up the request that triggered an Error
+      if (configs.app.appIsDev) console.log("Error", error.message);
     }
+    if (configs.app.appIsDev) console.log(error.config);
     return Promise.reject(error);
   }
 );

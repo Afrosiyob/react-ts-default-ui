@@ -1,15 +1,11 @@
-import "./i18n";
-
-import React, { lazy } from "react";
-import { BrowserRouter } from "react-router-dom";
-import RootProvider from "provider/root-provider";
+import React from "react";
+import RootProvider from "provider/RootProvider";
 import ReactDOM from "react-dom/client";
 
+import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
 import "./index.css";
-
-const AppLazy = lazy(() => import("./App"));
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -17,11 +13,9 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <RootProvider>
-        <AppLazy />
-      </RootProvider>
-    </BrowserRouter>
+    <RootProvider>
+      <App />
+    </RootProvider>
   </React.StrictMode>
 );
 
